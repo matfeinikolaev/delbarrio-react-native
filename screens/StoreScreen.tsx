@@ -11,7 +11,6 @@ export default class StoreScreen extends Component {
 
   constructor (props) {
     super(props);
-
     this.state = {
       store: [],
       products: [],
@@ -37,6 +36,8 @@ export default class StoreScreen extends Component {
         var storeFormatted = [];
         storeFormatted.push(json);
         this.setState({store: storeFormatted});
+        console.log(this.state.store);
+        // this.props.navigation.setOptions({title: this.state.store[0].post_title});
       })
       .catch((error) => console.error(error))
       .finally(() => {

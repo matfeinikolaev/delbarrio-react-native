@@ -31,8 +31,8 @@ export default function HomeScreen(props) {
 
   return (
     <View style={styles.container} >
-      <Text h1>DELBARRIO</Text>
-      <Text h3>¿Que necesitas?</Text>
+      <Text h1 style={styles.heading1}>DELBARRIO</Text>
+      <Text h3 style={styles.heading2}>¿Que necesitas?</Text>
       {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
 
         <FlatList
@@ -59,19 +59,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingTop: Constants.statusBarHeight,
+    alignItems: 'center',
+    paddingTop: 20,
+    marginTop: 70,
     backgroundColor: "#ecf0f1",
     padding: 8
   },
+  heading1: {
+    fontSize: 25,
+    fontWeight: "bold",
+    fontFamily: "Roboto",
+    color: "#687e95",
+  },
+  heading2: {
+    fontSize: 15,
+    fontWeight: "normal",
+    fontFamily: "Roboto",
+    color: "#687e95",
+    marginBottom: 30
+  },
   text: {
-    width: 100,
-    height: 100
+    justifyContent: "center",
+    alignItems: 'center',
+    width: 300,
+    height: 120
   },
   logo: {
-    width: 100,
+    width: 200,
     height: 58,
-    margin: 24,
-    alignContent: "center",
-    justifyContent: "center"
   },
 });

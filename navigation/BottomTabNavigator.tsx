@@ -29,17 +29,17 @@ export default function BottomTabNavigator() {
       initialRouteName="Home"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
-        name="Tiendas"
+        name="HomeTab"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color} />, title: "Home"
         }}
       />
       <BottomTab.Screen
-        name="Account"
+        name="AccountTab"
         component={AccountNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-person" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-person" color={color} />, title: "Account"
         }}
       />
     </BottomTab.Navigator>
@@ -67,12 +67,12 @@ function HomeNavigator() {
         <HomeStack.Screen
           name="StoresScreen"
           component={StoresScreen}
-          options={{ headerShown: true }}
+          options={{ headerShown: true, title: "Stores" }}
         />
         <HomeStack.Screen
           name="StoreScreen"
           component={StoreScreen}
-          options={{ headerShown: true }}
+          options={{ headerShown: true, title: "" }}
         />
         <HomeStack.Screen
           name="ProductScreen"
