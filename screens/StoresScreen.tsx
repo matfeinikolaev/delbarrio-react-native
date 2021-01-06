@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { useEffect, useState }  from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Button, SafeAreaView, ToastAndroid, Image, ListItem, Avatar, TouchableOpacity, ImageBackground } from 'react-native';
-import { Card } from 'react-native-elements';
-import fondoTiendas from "../assets/images/fondoTiendas.png";
+
+import { Card, CardItem, Body } from 'native-base';
 import { Text, View } from '../components/Themed';
 import Constants from "expo-constants";
 
@@ -10,6 +10,8 @@ export default class StoresScreen extends Component {
 
   constructor (props) {
     super(props);
+
+    this.props.navigation.setOptions({title: this.props.route.params.store.name});
 
     this.state = {
       data: [],
@@ -44,7 +46,7 @@ export default class StoresScreen extends Component {
 
   storeClicked(item) {
     ToastAndroid.show(item.title + " clicked", ToastAndroid.SHORT);
-    this.props.navigation.navigate("StoreScreen", { store_id: item.id });
+    this.props.navigation.navigate("StoreScreen", { store_id: item.id, store_name: item.title });
   }
 
   render() {
@@ -53,16 +55,20 @@ export default class StoresScreen extends Component {
       <View style={styles.container} >
         {isLoading ? <ActivityIndicator size="large" color="#0000ff"/> : (
           <FlatList
+            style={{width: "100%"}}
             data={data}
             keyExtractor={({ id }, index) => id}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => this.storeClicked(item)}>
-                <Card pointerEvents="none" style={styles.card}>
-                  <ImageBackground source={require('../assets/images/fondoTiendas.png')} style={styles.image}>
-                    <Text style={styles.text}>
-                    {item.title}
-                    </Text>
-                  </ImageBackground>
+              <TouchableOpacity onPress={() => this.storeClicked(item)} style={{width: "100%", justifyContent: "center", alignItems: 'center'}}>
+                <Card style={{justifyContent: "center", alignItems: 'center'}} transparent>
+                  <CardItem style={{backgroundColor: "#ecf0f1"}}>
+                    <Body style={{position: "relative", justifyContent: "center", alignItems: 'center'}}>
+                      <Image source={require('../assets/images/fondoTiendas.png')} />
+                      <Text style={{position: "absolute", color: "white"}}>
+                        {item.title}
+                      </Text>
+                    </Body>
+                  </CardItem>
                 </Card>
               </TouchableOpacity>
             )}
@@ -82,22 +88,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#ecf0f1",
     padding: 8
   },
+  textWrap: {
+    width: 200,
+    height: 100,
+    justifyContent: "center",
+    alignItems: 'center',
+  },
   text: {
     color: "white",
-    width: 50,
+    width: 200,
+    height: 100,
+    // justifyContent: "center",
+    // alignItems: 'center',
   },
   card: {
-    width: 100,
-    height: 100,
+    flex: 1,
+    backgroundColor: "blue"
   },
   image: {
     // flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover", //center contain cover repeat stretch
-    borderRadius: 100,
-    justifyContent: "center",
-    alignItems: 'center',
+    // width: 200,
+    // height: 100,
+    // resizeMode: "cover", //center contain cover repeat stretch
+    // borderRadius: 15,
+    // justifyContent: "center",
+    // alignItems: 'center',
   },
   logo: {
     width: 100,
@@ -107,3 +122,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+// <ImageBackground source={require('../assets/images/fondoTiendas.png')} style={styles.image}>
+// <Text style={styles.text}>
+// {item.title}
+// </Text>
+// </ImageBackground>

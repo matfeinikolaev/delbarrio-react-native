@@ -2,7 +2,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-
+import { Button } from 'react-native-elements';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
@@ -17,6 +17,9 @@ import OrderSummaryScreen from '../screens/OrderSummaryScreen';
 import AccountScreen from '../screens/AccountScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import AddressScreen from '../screens/AddressScreen';
+import OrdersScreen from '../screens/OrdersScreen';
 import { BottomTabParamList, HomeParamList, AccountParamList, StoresParamList, StoreParamList, ProductParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -82,7 +85,7 @@ function HomeNavigator() {
         <HomeStack.Screen
           name="CartScreen"
           component={CartScreen}
-          options={{ headerShown: true }}
+          options={{ headerShown: true, title: "Cart" }}
         />
         <HomeStack.Screen
           name="CheckoutScreen"
@@ -122,6 +125,21 @@ function AccountNavigator() {
         name="RegisterScreen"
         component={RegisterScreen}
         options={{ headerShown: false }}
+      />
+      <AccountStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{ headerShown: true }}
+      />
+      <AccountStack.Screen
+        name="AddressScreen"
+        component={AddressScreen}
+        options={{ headerShown: true }}
+      />
+      <AccountStack.Screen
+        name="OrdersScreen"
+        component={OrdersScreen}
+        options={{ headerShown: true }}
       />
     </AccountStack.Navigator>
   );

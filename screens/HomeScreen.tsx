@@ -8,10 +8,11 @@ import Data from '../data/data';
 
 async function getUser() {
   let user = await AsyncStorage.getItem("user");
-  console.log(user);
+  return user;
 }
 
 export default function HomeScreen(props) {
+  if(getUser() == null) props.navigation.navigate("AccountScreen"); 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   useEffect(() => {

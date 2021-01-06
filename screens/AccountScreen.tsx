@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { useEffect, useState }  from 'react';
-import { StyleSheet, SectionList, Switch, AsyncStorage } from 'react-native';
-
-import { ListItem, Divider, SearchBar, Icon, Button } from 'react-native-elements';
+import { StyleSheet, SectionList, AsyncStorage, TouchableOpacity } from 'react-native';
+import { Container, Header, Content, Button, ListItem, Icon, Left, Body, Right, Switch } from 'native-base';
+import { Divider, SearchBar } from 'react-native-elements';
 import { Text, View } from '../components/Themed';
 
 const sections = [
@@ -39,18 +39,10 @@ const sections = [
 export default class AccountScreen extends Component {
   constructor (props) {
     super(props);
-    console.log(props);
-    if (props.route.params != undefined) {
-      if (props.route.params.user) {
-        this.state = {
-          user: props.route.params.user,
-        };
-      }
-    } else {
-      this.state = {
-        user: {},
-      };
-    }
+    this.state = {
+
+    };
+    this.getUser();
   }
 
   login() {
@@ -64,8 +56,10 @@ export default class AccountScreen extends Component {
   }
   async getUser() {
     var user = await AsyncStorage.getItem("user");
-    user = JSON.parse(user);
-    this.setState({user: user});
+    if (user != null) {
+      user = JSON.parse(user);
+      this.setState({user: user});
+    } else this.setState({user: false});
   }
   facebook() {
   }
@@ -73,9 +67,7 @@ export default class AccountScreen extends Component {
     await AsyncStorage.removeItem("user");
   }
   componentDidMount() {
-    if (this.state.user == {} || this.state.user == null || this.state.user == undefined || !this.state.user) {
-      this.getUser();
-    }
+    this.getUser();
   }
   exit() {
     var url = 'https://delbarrio.ec/wp-admin/admin-ajax.php?action=mstoreapp-logout';
@@ -98,44 +90,91 @@ export default class AccountScreen extends Component {
       });
   }
   render () {
-    if (this.props.route.params != undefined) {
-      if ( Object.values(this.props.route.params.user).length > 0 ) {
-        console.log(this.state.user);
-        console.log(this.props.route.params);
-        // this.setState({user: this.props.route.params.user }) 
-      }
-    }
     return (
       <View style={styles.container}>
-        {this.state.user != {} && this.state.user != null ?
-          (<View>
-            <Text>
-              {this.state.user.display_name}
-            </Text>
-            <Button style={styles.button}
-              onPress={()=>this.exit()}
-              title="Exit"
-            />
-          </View>)
+        {this.state.user ?
+          (<Container>
+            <Header />
+            <Content>
+              <ListItem icon onPress={()=>this.props.navigation.navigate("AddressScreen")}>
+                <Left>
+                  <Button style={{ backgroundColor: "#FF9501" }}>
+                    <Icon active name="airplane" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Text>Address</Text>
+                </Body>
+                <Right>
+                  <Icon active name="arrow-forward" />
+                </Right>
+              </ListItem>
+              <ListItem icon onPress={()=>this.props.navigation.navigate("OrdersScreen")}>
+                <Left>
+                  <Button style={{ backgroundColor: "#007AFF" }}>
+                    <Icon active name="wifi" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Text>Orders</Text>
+                </Body>
+                <Right>
+                  <Icon active name="arrow-forward" />
+                </Right>
+              </ListItem>
+              <ListItem icon>
+                <Left>
+                  <Button style={{ backgroundColor: "green" }}>
+                    <Icon active name="bluetooth" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Text>Connect us on Whatsapp</Text>
+                </Body>
+                <Right>
+                  <Icon active name="arrow-forward" />
+                </Right>
+              </ListItem>
+              <ListItem icon onPress={()=>this.props.navigation.navigate("SettingsScreen")}>
+                <Left>
+                  <Button style={{ backgroundColor: "orange" }}>
+                    <Icon active name="bluetooth" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Text>Settings</Text>
+                </Body>
+                <Right>
+                  <Icon active name="arrow-forward" />
+                </Right>
+              </ListItem>
+              <ListItem icon onPress={()=>this.exit()}>
+                <Left>
+                  <Button style={{ backgroundColor: "red" }}>
+                    <Icon active name="bluetooth" />
+                  </Button>
+                </Left>
+                <Body>
+                  <Text>Exit</Text>
+                </Body>
+                <Right>
+                  <Icon active name="arrow-forward" />
+                </Right>
+              </ListItem>
+            </Content>
+          </Container>)
           :
-          (<View>
-            <Button style={styles.button}
-              onPress={()=>this.login()}
-              title="Login"
-            />
-            <Button style={styles.button}
-              onPress={()=>this.register()}
-              title="Register"
-            />
-            <Button style={styles.button}
-              onPress={()=>this.google()}
-              title="Google"
-            />
-            <Button style={styles.button}
-              onPress={()=>this.facebook()}
-              title="Facebook"
-            />
-          </View>)
+          (
+          <Container>
+            <Header />
+            <Content>
+              <Button onPress={()=>this.login()} info style={{alignSelf: "center", marginBottom: 20, marginTop: 20, padding: 20}}><Text>Login</Text></Button>
+              <Button onPress={()=>this.register()} info style={{alignSelf: "center", marginBottom: 20, padding: 20}}><Text>Register</Text></Button>
+              <Button onPress={()=>this.google()} danger style={{alignSelf: "center", marginBottom: 20, padding: 20}}><Text>Google</Text></Button>
+              <Button onPress={()=>this.facebook()} style={{alignSelf: "center", marginBottom: 20, padding: 20}}><Text>Facebook</Text></Button>
+            </Content>
+          </Container>
+          )
         }
       </View>
     );
@@ -145,8 +184,6 @@ export default class AccountScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 20,
@@ -163,3 +200,22 @@ const styles = StyleSheet.create({
     marginVertical: 100
   },
 });
+
+// <View>
+//   <Button style={styles.button}
+//     onPress={()=>this.login()}
+//     title="Login"
+//   />
+//   <Button style={styles.button}
+//     onPress={()=>this.register()}
+//     title="Register"
+//   />
+//   <Button style={styles.button}
+//     onPress={()=>this.google()}
+//     title="Google"
+//   />
+//   <Button style={styles.button}
+//     onPress={()=>this.facebook()}
+//     title="Facebook"
+//   />
+// </View>
